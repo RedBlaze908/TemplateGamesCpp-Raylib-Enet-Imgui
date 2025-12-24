@@ -30,7 +30,13 @@ FetchContent_Declare(
     GIT_TAG main
 )
 
-FetchContent_MakeAvailable(imgui rlimgui)
+FetchContent_Declare(
+    imguizmo
+    GIT_REPOSITORY https://github.com/CedricGuillemet/ImGuizmo.git
+    GIT_TAG master
+)
+
+FetchContent_MakeAvailable(imgui rlimgui imguizmo)
 
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/library")
 
@@ -40,7 +46,8 @@ set(IMGUI_SOURCES
     ${imgui_SOURCE_DIR}/imgui_tables.cpp
     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
     ${imgui_SOURCE_DIR}/imgui_demo.cpp
-    ${LIB_DIR}/rlImGui.cpp  # L'integrazione raylib
+    ${imguizmo_SOURCE_DIR}/ImGuizmo.cpp
+    ${LIB_DIR}/rlImGui.cpp
 )
 
 add_executable(${PROJECT_NAME} main.cpp ${IMGUI_SOURCES})
@@ -50,6 +57,7 @@ configure_file(config.h.in config.h)
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${enet_SOURCE_DIR}/include
     ${imgui_SOURCE_DIR}
+    ${imguizmo_SOURCE_DIR}
     ${LIB_DIR}
     ${rlimgui_SOURCE_DIR}
     "${CMAKE_CURRENT_BINARY_DIR}"
